@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cuposalud-v1';
+const CACHE_NAME = 'cuposalud-v2';
 const ASSETS = [
   './',
   './index.html',

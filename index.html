@@ -2,7 +2,10 @@
 <html lang="es-CL" data-letra="1">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
 <meta name="description" content="CupoSalud: si una persona mayor no puede ir a su hora del CESFAM, la cancela con un toque y el cupo se ofrece a otra persona que lo está esperando. Propuesta de estudiantes de INACAP, con demostración.">
 <meta name="theme-color" content="#0B5D4A">
 <meta property="og:type" content="website">
@@ -131,8 +134,6 @@ main{padding:1.6rem 1rem 7.5rem;min-width:0}
 .btn.borde:hover{background:var(--menta)}
 .btn.rojo{background:var(--rojo);border-color:var(--rojo);color:#fff}
 .btn.rojo-borde{background:var(--carta);border-color:var(--rojo);color:var(--rojo)}
-.campo{display:flex;flex-direction:column;gap:.4rem;font-weight:700}
-.campo select{min-height:3rem;border:2px solid var(--linea);border-radius:12px;padding:.5rem .8rem;background:var(--carta);font-weight:400}
 .btn.ancho{width:100%}
 .fila-btn{display:flex;flex-wrap:wrap;gap:.8rem}
 .volver{background:none;border:0;padding:.4rem 0;font-weight:700;color:var(--pino);text-decoration:underline;cursor:pointer;align-self:flex-start;min-height:2.6rem;font-size:1.05rem}
@@ -221,6 +222,17 @@ ol.limpia b{font-family:var(--f-titulo);font-weight:600;font-size:1.2rem;display
 .registro time{font-variant-numeric:tabular-nums;color:var(--tinta-suave)}
 .registro .tag{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--pino)}
 .registro .tag.per{color:var(--tinta-suave)}
+.registro .tag.some{color:var(--rojo)}
+/* Ventanilla del SOME */
+.ventanilla{border-color:var(--pino)}
+.cab-ventanilla{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:flex-start;justify-content:space-between}
+.campo{display:flex;flex-direction:column;gap:.45rem}
+.campo select{background:var(--carta);border:2px solid var(--linea);border-radius:12px;padding:.6rem .8rem;min-height:3.2rem;max-width:30rem}
+.campo select:focus-visible{border-color:var(--pino)}
+.leyenda-chica{font-family:var(--f-texto);font-size:1.05rem;font-weight:700}
+.llamadas{background:var(--ambar-suave);border:2px solid #000;border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.llamadas h3{font-size:1.25rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
 
 /* Diálogo y aviso flotante */
 dialog{border:3px solid var(--tinta);border-radius:22px;padding:1.6rem;max-width:min(34rem,calc(100vw - 2rem));width:100%;background:var(--carta);color:var(--tinta)}
@@ -504,7 +516,7 @@ a.btn{text-decoration:none}
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V4h14v8M9 24H5V12h22v12h-4"/><path d="M9 19h14v9H9z"/></svg></span><b>Recordatorio e impresión <span class="s-tag">En la demo</span></b><span class="d">La hora se guarda en el calendario del teléfono, con aviso un día antes, o se imprime en papel.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h5l2 6-3 2a16 16 0 0 0 9 9l2-3 6 2v5a2 2 0 0 1-2 2A22 22 0 0 1 5 6a2 2 0 0 1 2-2z"/></svg></span><b>Teléfonos de ayuda reales <span class="s-tag">En la demo</span></b><span class="d">SAMU, Salud Responde y Fono Mayor, para llamar con un toque desde la sección Ayuda.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4 3-7 7-7s7 3 7 7M18 26c0-3 2-5 4-5s5 2 5 5"/></svg></span><b>Apoyo de un familiar o cuidador <span class="s-tag">En la demo</span></b><span class="d">Un familiar autorizado en el SOME recibe los avisos y puede confirmar, cancelar o aceptar horas por la persona. No ve la ficha clínica.</span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 13 16 4l12 9v13H4z"/></svg></span><b>Canal presencial de respaldo <span class="s-tag prop">Propuesto</span></b><span class="d">Quien no use el celular puede hacer lo mismo en el SOME, y su cupo igual entra al banco.</span></li>
+        <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 13 16 4l12 9v13H4z"/></svg></span><b>Canal presencial de respaldo <span class="s-tag">En la demo</span></b><span class="d">Quien no use el celular puede hacer lo mismo en el SOME, y su cupo igual entra al banco. Primera versión, con supuestos por confirmar con un CESFAM.</span></li>
       </ul>
     </div>
     <div>
@@ -527,6 +539,7 @@ a.btn{text-decoration:none}
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M8 9h18M8 16h18M8 23h12"/></svg></span><b>Lista de espera ordenada <span class="s-tag">En la demo</span></b><span class="d">Misma atención, horario compatible y orden de solicitud. Los criterios clínicos los define el CESFAM.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M16 3l11 4v8c0 7-5 11.5-11 14C10 26.5 5 22 5 15V7z"/></svg></span><b>Una oferta a la vez <span class="s-tag">En la demo</span></b><span class="d">Un cupo nunca se ofrece a dos personas al mismo tiempo, para evitar dobles reservas.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M8 4h12l6 6v18H8zM12 16h10M12 21h10"/></svg></span><b>Registro de cada paso <span class="s-tag">En la demo</span></b><span class="d">Distingue lo que hizo el sistema de lo que hizo una persona.</span></li>
+        <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 13 16 4l12 9v13H4z"/></svg></span><b>Atención en ventanilla <span class="s-tag">En la demo</span></b><span class="d">El funcionario cancela horas o anota en la lista de espera por la persona, y llama a quien pidió aviso por teléfono.</span></li>
       </ul>
     </div>
     <div>
@@ -665,7 +678,9 @@ var PERSONAS = {
   mt: { id: 'mt', nombre: 'María Teresa', edad: 68, iniciales: 'MT' },
   jc: { id: 'jc', nombre: 'Juan Carlos', edad: 72, iniciales: 'JC' },
   el: { id: 'el', nombre: 'Elena', edad: 75, iniciales: 'EL' },
-  lu: { id: 'lu', nombre: 'Luis Alberto', edad: 81, iniciales: 'LA' }
+  lu: { id: 'lu', nombre: 'Luis Alberto', edad: 81, iniciales: 'LA' },
+  /* Persona que no usa celular: solo se atiende por el canal presencial del SOME. */
+  ro: { id: 'ro', nombre: 'Rosa', edad: 79, iniciales: 'RO', sinCelular: true }
 };
 /* Apoyo de un familiar o cuidador (primera versión).
    SUPUESTO: la persona mayor autoriza a su cuidador en el SOME, presentando su cédula, y puede quitarle el permiso cuando quiera.
@@ -675,7 +690,10 @@ var CUIDADORES = {
 };
 var ATENCIONES = ['Medicina general', 'Enfermería', 'Kinesiología', 'Odontología'];
 var HORARIOS = { cualquiera: 'Cualquier horario', manana: 'Mañana', tarde: 'Tarde' };
-var AVISOS = { app: 'Mensaje en CupoSalud', sms: 'SMS', whatsapp: 'WhatsApp' };
+var AVISOS = { app: 'Mensaje en CupoSalud', sms: 'SMS', whatsapp: 'WhatsApp', llamada: 'Llamada del SOME' };
+/* Canal por el que se hizo cada trámite: la persona desde su celular o el personal en la ventanilla del SOME. */
+function quienCanal(canal) { return canal === 'some' ? 'some' : 'persona'; }
+function enVentanilla(canal) { return canal === 'some' ? ' (en ventanilla del SOME)' : ''; }
 
 /* Feriados nacionales de Chile que caen de lunes a viernes, para no dar horas en días sin atención.
    Solo incluye los de fecha fija y Viernes Santo. Revisar y actualizar cada año con el calendario oficial. */
@@ -699,12 +717,14 @@ function crearEstado(ahora) {
       { id: 'h1', persona: 'mt', atencion: 'Medicina general', fecha: diaHabil(ahora, 3, 10, 30), box: 'Box 3', estado: 'reservada', confirmada: false, origen: 'agenda' },
       { id: 'h2', persona: 'mt', atencion: 'Enfermería', fecha: diaHabil(ahora, 7, 9, 0), box: 'Box 5', estado: 'reservada', confirmada: false, origen: 'agenda' },
       { id: 'h3', persona: 'jc', atencion: 'Kinesiología', fecha: diaHabil(ahora, 4, 15, 30), box: 'Box 8', estado: 'reservada', confirmada: false, origen: 'agenda' },
-      { id: 'h4', persona: 'lu', atencion: 'Enfermería', fecha: diaHabil(ahora, 5, 11, 0), box: 'Box 5', estado: 'reservada', confirmada: false, origen: 'agenda' }
+      { id: 'h4', persona: 'lu', atencion: 'Enfermería', fecha: diaHabil(ahora, 5, 11, 0), box: 'Box 5', estado: 'reservada', confirmada: false, origen: 'agenda' },
+      { id: 'h5', persona: 'ro', atencion: 'Medicina general', fecha: diaHabil(ahora, 6, 15, 0), box: 'Box 2', estado: 'reservada', confirmada: false, origen: 'agenda' }
     ],
     solicitudes: [
       { id: 's1', persona: 'lu', atencion: 'Odontología', horario: 'tarde', aviso: 'app', creada: ahora - 6 * DIA, estado: 'espera' },
       { id: 's2', persona: 'jc', atencion: 'Medicina general', horario: 'cualquiera', aviso: 'app', creada: ahora - 5 * DIA, estado: 'espera' },
-      { id: 's3', persona: 'el', atencion: 'Medicina general', horario: 'manana', aviso: 'app', creada: ahora - 3 * DIA, estado: 'espera' }
+      { id: 's3', persona: 'el', atencion: 'Medicina general', horario: 'manana', aviso: 'app', creada: ahora - 3 * DIA, estado: 'espera' },
+      { id: 's4', persona: 'ro', atencion: 'Kinesiología', horario: 'tarde', aviso: 'llamada', creada: ahora - 4 * DIA, estado: 'espera', canal: 'some' }
     ],
     autorizaciones: [
       { cuidador: 'ca', persona: 'lu', relacion: 'hija', estado: 'vigente', desde: ahora - 20 * DIA, via: 'SOME' }
@@ -729,8 +749,8 @@ function sinPermiso(E, por, persona) {
   return { ok: false, motivo: 'No tienes una autorización vigente para gestionar las horas de ' + PERSONAS[persona].nombre + '.' };
 }
 /* Anota lo que hizo la persona o, si actuó su cuidador, deja claro quién lo hizo. */
-function anotarPersona(E, ahora, persona, por, texto) {
-  if (!por) { anotar(E, ahora, 'persona', texto); return; }
+function anotarPersona(E, ahora, persona, por, texto, canal) {
+  if (!por) { anotar(E, ahora, quienCanal(canal), texto); return; }
   var a = autorizacion(E, por, persona);
   anotar(E, ahora, 'cuidador', texto + ' Lo hizo ' + CUIDADORES[por].nombre + (a ? ', su ' + a.relacion + ',' : '') + ' con autorización.');
 }
@@ -770,7 +790,8 @@ function buscarCandidato(E, cupo) {
 function ofrecerA(E, cupo, sol, ahora) {
   cupo.estado = 'ofrecido'; cupo.ofrecidoA = sol.persona; cupo.solicitud = sol.id;
   avisar(E, ahora, sol.persona, 'oferta', { cupoId: cupo.id, atencion: cupo.atencion, fecha: cupo.fecha, box: cupo.box });
-  anotar(E, ahora, 'auto', 'Oferta enviada a ' + PERSONAS[sol.persona].nombre + ' (' + cupo.atencion + ').');
+  if (sol.aviso === 'llamada') anotar(E, ahora, 'auto', 'Cupo de ' + cupo.atencion + ' asignado a ' + PERSONAS[sol.persona].nombre + '. Prefiere aviso por teléfono: queda en las llamadas pendientes del SOME.');
+  else anotar(E, ahora, 'auto', 'Oferta enviada a ' + PERSONAS[sol.persona].nombre + ' (' + cupo.atencion + ').');
 }
 function ofrecer(E, cupo, ahora) {
   var sol = buscarCandidato(E, cupo);
@@ -779,16 +800,16 @@ function ofrecer(E, cupo, ahora) {
   anotar(E, ahora, 'auto', 'No hay personas compatibles en espera. El cupo queda en el banco.');
   return null;
 }
-function cancelarHora(E, horaId, ahora, por) {
+function cancelarHora(E, horaId, ahora, canal, por) {
   var h = E.horas.find(function (x) { return x.id === horaId; });
   if (!h || h.estado !== 'reservada') return { ok: false, motivo: 'Esta hora ya no está reservada.' };
   if (por && !puedeGestionar(E, por, h.persona)) return sinPermiso(E, por, h.persona);
   h.estado = 'cancelada'; E.folio += 1;
   var folio = 'CS-' + E.folio;
   var cupo = { id: nuevoId(E, 'c'), hora: h.id, atencion: h.atencion, fecha: h.fecha, box: h.box, liberadoPor: h.persona, liberadoEn: ahora,
-    estado: 'liberado', ofrecidoA: null, asignadoA: null, solicitud: null, reasignadoEn: null, descartes: [] };
+    estado: 'liberado', ofrecidoA: null, asignadoA: null, solicitud: null, reasignadoEn: null, descartes: [], canal: canal || 'app' };
   E.cupos.push(cupo);
-  anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' canceló su hora de ' + h.atencion + '.');
+  anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' canceló su hora de ' + h.atencion + enVentanilla(canal) + '.', canal);
   anotar(E, ahora, 'auto', 'Cupo liberado e ingresado al banco de cupos.');
   avisar(E, ahora, h.persona, 'cancelacion', { atencion: h.atencion, fecha: h.fecha, folio: folio, por: por || null });
   ofrecer(E, cupo, ahora);
@@ -824,8 +845,16 @@ function confirmarAsistencia(E, horaId, ahora, por) {
   anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' confirmó que asistirá a ' + h.atencion + '.');
   return { ok: true };
 }
+/* Ofertas que el SOME tiene que comunicar por teléfono, porque la persona eligió ese aviso. */
+function llamadasPendientes(E) {
+  return E.cupos.filter(function (c) {
+    if (c.estado !== 'ofrecido') return false;
+    var s = E.solicitudes.find(function (x) { return x.id === c.solicitud; });
+    return !!s && s.aviso === 'llamada';
+  });
+}
 /* Un cupo solo puede aceptarlo la persona a quien está ofrecido en ese momento: así no se asigna dos veces. */
-function aceptarOferta(E, cupoId, persona, ahora, por) {
+function aceptarOferta(E, cupoId, persona, ahora, canal, por) {
   var cupo = E.cupos.find(function (x) { return x.id === cupoId; });
   if (!cupo || cupo.estado !== 'ofrecido' || cupo.ofrecidoA !== persona) return { ok: false, motivo: 'Este cupo ya no está disponible.' };
   if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
@@ -836,11 +865,11 @@ function aceptarOferta(E, cupoId, persona, ahora, por) {
   var sol = E.solicitudes.find(function (s) { return s.id === cupo.solicitud; });
   if (sol) sol.estado = 'resuelta';
   avisar(E, ahora, persona, 'reserva', { atencion: cupo.atencion, fecha: cupo.fecha, box: cupo.box, folio: folio, por: por || null });
-  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' aceptó la oferta.');
-  anotar(E, ahora, 'auto', 'Cupo reasignado y agenda actualizada. Sin llamadas.');
+  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' aceptó la oferta' + (canal === 'some' ? ' por teléfono (lo registró el SOME)' : '') + '.', canal);
+  anotar(E, ahora, 'auto', 'Cupo reasignado y agenda actualizada.' + (canal === 'some' ? '' : ' Sin llamadas.'));
   return { ok: true, folio: folio, hora: hora };
 }
-function descartarOferta(E, cupoId, persona, motivo, ahora, por) {
+function descartarOferta(E, cupoId, persona, motivo, ahora, canal, por) {
   var cupo = E.cupos.find(function (x) { return x.id === cupoId; });
   if (!cupo || cupo.estado !== 'ofrecido' || cupo.ofrecidoA !== persona) return { ok: false, motivo: 'Esta oferta ya no está vigente.' };
   if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
@@ -849,18 +878,18 @@ function descartarOferta(E, cupoId, persona, motivo, ahora, por) {
     avisar(E, ahora, persona, 'vencida', { atencion: cupo.atencion, fecha: cupo.fecha });
     anotar(E, ahora, 'auto', 'Venció el plazo de respuesta de ' + PERSONAS[persona].nombre + '.');
   } else {
-    anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' rechazó la oferta. Sigue en lista de espera.');
+    anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' rechazó la oferta' + (canal === 'some' ? ' por teléfono (lo registró el SOME)' : '') + '. Sigue en lista de espera.', canal);
   }
   var siguiente = ofrecer(E, cupo, ahora);
   return { ok: true, siguiente: siguiente };
 }
-function pedirHora(E, persona, atencion, horario, aviso, ahora, por) {
+function pedirHora(E, persona, atencion, horario, aviso, ahora, canal, por) {
   if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
   if (E.solicitudes.some(function (s) { return s.persona === persona && s.atencion === atencion && s.estado === 'espera'; }))
-    return { ok: false, motivo: (por ? PERSONAS[persona].nombre + ' ya tiene' : 'Ya tienes') + ' una solicitud de ' + atencion + ' en lista de espera.' };
-  var sol = { id: nuevoId(E, 's'), persona: persona, atencion: atencion, horario: horario, aviso: aviso, creada: ahora, estado: 'espera', por: por || null };
+    return { ok: false, motivo: (canal === 'some' || por ? PERSONAS[persona].nombre + ' ya tiene' : 'Ya tienes') + ' una solicitud de ' + atencion + ' en lista de espera.' };
+  var sol = { id: nuevoId(E, 's'), persona: persona, atencion: atencion, horario: horario, aviso: aviso, creada: ahora, estado: 'espera', canal: canal || 'app', por: por || null };
   E.solicitudes.push(sol);
-  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' pidió una hora de ' + atencion + '.');
+  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' pidió una hora de ' + atencion + enVentanilla(canal) + '.', canal);
   var libres = E.cupos.filter(function (c) { return c.estado === 'disponible'; }).sort(function (a, b) { return a.fecha - b.fecha; });
   for (var i = 0; i < libres.length; i++) {
     if (esCompatible(E, libres[i], sol)) { ofrecerA(E, libres[i], sol, ahora); return { ok: true, solicitud: sol, oferta: libres[i] }; }
@@ -881,7 +910,7 @@ function resumen(E) {
 function antesQueYo(E, sol) {
   return E.solicitudes.filter(function (s) { return s.estado === 'espera' && s.atencion === sol.atencion && s.creada < sol.creada; }).length;
 }
-if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, cancelarHora: cancelarHora, aceptarOferta: aceptarOferta, descartarOferta: descartarOferta, pedirHora: pedirHora, resumen: resumen, confirmarAsistencia: confirmarAsistencia, recuperarHora: recuperarHora, puedeRecuperar: puedeRecuperar, PERSONAS: PERSONAS,
+if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, cancelarHora: cancelarHora, aceptarOferta: aceptarOferta, descartarOferta: descartarOferta, pedirHora: pedirHora, resumen: resumen, confirmarAsistencia: confirmarAsistencia, recuperarHora: recuperarHora, puedeRecuperar: puedeRecuperar, llamadasPendientes: llamadasPendientes, PERSONAS: PERSONAS,
   CUIDADORES: CUIDADORES, puedeGestionar: puedeGestionar, revocarCuidador: revocarCuidador, autorizarCuidador: autorizarCuidador };
 </script>
 
@@ -924,7 +953,12 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
 
   function uiInicial() {
     return { vista: 'persona', persona: 'mt', cuidador: 'ca', pagina: 'inicio', detalle: null, comprobante: null, guia: true,
-      pedir: { paso: 1, atencion: 'Medicina general', horario: 'cualquiera', aviso: 'app', resultado: null } };
+      pedir: { paso: 1, atencion: 'Medicina general', horario: 'cualquiera', aviso: 'app', resultado: null },
+      some: someInicial('ro') };
+  }
+  function someInicial(persona) {
+    return { persona: persona, verificado: false, tramite: 'cancelar', atencion: 'Medicina general', horario: 'cualquiera',
+      aviso: PERSONAS[persona].sinCelular ? 'llamada' : 'app', resultado: null };
   }
   function yo() { return PERSONAS[ui.persona]; }
   function misHoras() { return E.horas.filter(function (h) { return h.persona === ui.persona && h.estado === 'reservada'; }).sort(function (a, b) { return a.fecha - b.fecha; }); }
@@ -1171,7 +1205,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       q('Cancelé por error. ¿Qué hago?', 'No te preocupes. Mientras ninguna otra persona haya aceptado esa hora, puedes recuperarla desde el comprobante o desde “Mis horas”, en la parte de Horas canceladas.') +
       q('¿Cómo le aviso a mi familia de mi hora?', 'Abre tu hora en “Mis horas” y toca “Enviar por WhatsApp”. Se abre WhatsApp con el mensaje ya escrito: solo eliges a quién mandarlo.') +
       q('¿Cómo hago para que no se me olvide la hora?', 'Abre tu hora y toca “Guardar en mi calendario”. Tu teléfono te avisará un día antes y dos horas antes. También puedes imprimirla y dejarla a la vista.') +
-      q('¿Y si no tengo celular o no me manejo con él?', 'Un familiar puede ayudarte, o puedes hacer el trámite en la ventanilla (SOME) de tu CESFAM. La propuesta considera que el personal registre ahí tu aviso, para que tu cupo igual se aproveche.') +
+      q('¿Y si no tengo celular o no me manejo con él?', 'Un familiar puede ayudarte, o puedes hacer el trámite en la ventanilla (SOME) de tu CESFAM. El personal registra ahí tu aviso, te entrega un comprobante impreso y tu cupo igual se aprovecha. Si no usas celular, te avisan por teléfono cuando se libere una hora para ti. En esta demostración puedes verlo en el panel del equipo.') +
       q('¿Rechazar una oferta cancela mis otras horas?', 'No. Tus horas reservadas no cambian y sigues en la lista de espera.') +
       q('¿A quién se le ofrece un cupo liberado?', 'A la persona que espera esa misma atención, a quien le sirve el horario y que pidió primero. En un CESFAM real, el orden de prioridad lo definiría el propio centro de salud.') +
       q('¿Puede ayudarme un familiar?', 'Sí. Puedes autorizar a un familiar o cuidador en el SOME de tu CESFAM. Desde ese momento recibe tus avisos y puede confirmar, cancelar o aceptar horas por ti. No ve tu ficha clínica, y puedes quitarle el permiso cuando quieras. En esta demostración, Luis Alberto tiene autorizada a su hija Carolina.') +
@@ -1269,13 +1303,15 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       '<div class="cifra"><div class="n">' + r.reasignados + '</div>Cupos reasignados</div>' +
       '<div class="cifra"><div class="n">' + r.enBanco + '</div>En el banco, sin interesados</div></section>';
     h += '<p class="nota">' + ico('escudo') + '<span>' + (r.liberados ? 'Cupos recuperados en esta simulación: ' + r.reasignados + ' de ' + r.liberados + ' (' + pct + ' %). ' : '') + 'Son cifras de la simulación con datos ficticios, no resultados medidos en un CESFAM.</span></p>';
+    h += vVentanilla();
     h += '<div class="dos"><div class="bloque" style="gap:1.4rem"><section class="tarjeta bloque"><h2>Banco de cupos</h2>';
     if (!E.cupos.length) h += '<p class="suave">Aún no hay cupos liberados. Cancela una hora desde la vista de la persona mayor para ver el recorrido.</p>';
     h += '<ul class="lista">';
     E.cupos.slice().reverse().forEach(function (c) {
-      var estado = c.estado === 'devuelto' ? '<span class="sello gris">Devuelto a ' + PERSONAS[c.liberadoPor].nombre + ' (canceló por error)</span>' : c.estado === 'ofrecido' ? '<span class="sello ambar">Ofrecido a ' + PERSONAS[c.ofrecidoA].nombre + '</span>' : c.estado === 'reasignado' ? '<span class="sello">Reasignado a ' + PERSONAS[c.asignadoA].nombre + '</span>' : '<span class="sello gris">Disponible, sin interesados</span>';
+      var porFono = c.estado === 'ofrecido' && llamadasPendientes(E).indexOf(c) !== -1;
+      var estado = c.estado === 'devuelto' ? '<span class="sello gris">Devuelto a ' + PERSONAS[c.liberadoPor].nombre + ' (canceló por error)</span>' : c.estado === 'ofrecido' ? '<span class="sello ambar">' + (porFono ? 'Por llamar a ' : 'Ofrecido a ') + PERSONAS[c.ofrecidoA].nombre + '</span>' : c.estado === 'reasignado' ? '<span class="sello">Reasignado a ' + PERSONAS[c.asignadoA].nombre + '</span>' : '<span class="sello gris">Disponible, sin interesados</span>';
       h += '<li class="renglon"><div class="cab"><b>' + c.atencion + ' · ' + fechaLarga(c.fecha) + ', ' + horaTxt(c.fecha) + '</b>' + estado + '</div>' +
-        '<p class="chico suave">' + c.box + '. Liberado por ' + PERSONAS[c.liberadoPor].nombre + ' a las ' + reloj(c.liberadoEn) + '.' +
+        '<p class="chico suave">' + c.box + '. Liberado por ' + PERSONAS[c.liberadoPor].nombre + ' a las ' + reloj(c.liberadoEn) + (c.canal === 'some' ? ', en ventanilla' : '') + '.' +
         c.descartes.map(function (d) { return ' ' + (d.motivo === 'vencio' ? 'Venció el plazo de ' : 'Rechazado por ') + PERSONAS[d.persona].nombre + '.'; }).join('') + '</p>' +
         (c.estado === 'ofrecido' ? '<div>' + btn('Simular que venció el plazo', 'vencer', 'data-id="' + c.id + '"', 'borde') + '</div>' : '') + '</li>';
     });
@@ -1284,7 +1320,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     E.solicitudes.slice().sort(function (a, b) { return a.creada - b.creada; }).forEach(function (s, i) {
       var of = E.cupos.some(function (c) { return c.estado === 'ofrecido' && c.solicitud === s.id; });
       var st = s.estado === 'resuelta' ? '<span class="sello">Con hora asignada</span>' : of ? '<span class="sello ambar">Oferta enviada</span>' : '<span class="sello gris">En espera</span>';
-      h += '<li class="renglon"><div class="cab"><b>' + (i + 1) + '. ' + PERSONAS[s.persona].nombre + ', ' + PERSONAS[s.persona].edad + ' años</b>' + st + '</div><p class="chico suave">' + s.atencion + ' · ' + HORARIOS[s.horario] + ' · pidió ' + hace(s.creada) + '</p></li>';
+      h += '<li class="renglon"><div class="cab"><b>' + (i + 1) + '. ' + PERSONAS[s.persona].nombre + ', ' + PERSONAS[s.persona].edad + ' años</b>' + st + '</div><p class="chico suave">' + s.atencion + ' · ' + HORARIOS[s.horario] + ' · pidió ' + hace(s.creada) + (s.canal === 'some' ? ' en ventanilla' : '') + (s.aviso === 'llamada' ? ' · aviso por teléfono' : '') + '</p></li>';
     });
     h += '</ul></section>';
     h += '<section class="tarjeta bloque"><h2>Cuidadores autorizados</h2><p class="suave chico">Familiares que pueden gestionar horas en nombre de una persona. La autorización se registra en el SOME.</p><ul class="lista">';
@@ -1292,11 +1328,11 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       h += '<li class="renglon"><div class="cab"><b>' + CUIDADORES[a.cuidador].nombre + ' → ' + PERSONAS[a.persona].nombre + '</b>' + (a.estado === 'vigente' ? '<span class="sello">Vigente</span>' : '<span class="sello gris">Sin permiso</span>') + '</div><p class="chico suave">' + a.relacion.charAt(0).toUpperCase() + a.relacion.slice(1) + ' · autorizada en el ' + a.via + ' ' + hace(a.desde) + '</p></li>';
     });
     h += '</ul></section></div>';
-    h += '<div class="bloque" style="gap:1.4rem"><section class="tarjeta bloque"><h2>Registro de actividad</h2><p class="suave chico">Cada paso queda anotado. “Automático” es lo que hizo el sistema sin intervención del personal. “Cuidador” es lo que hizo un familiar autorizado.</p>';
+    h += '<div class="bloque" style="gap:1.4rem"><section class="tarjeta bloque"><h2>Registro de actividad</h2><p class="suave chico">Cada paso queda anotado. “Automático” es lo que hizo el sistema sin intervención del personal; “Ventanilla SOME” es lo que registró un funcionario por la persona; “Cuidador” es lo que hizo un familiar autorizado.</p>';
     if (!E.registro.length) h += '<p class="suave">Todavía no hay movimientos.</p>';
     h += '<ul class="registro">';
     E.registro.slice().reverse().forEach(function (g) {
-      h += '<li><time>' + reloj(g.ts) + '</time><div><span class="tag' + (g.quien === 'auto' ? '' : ' per') + '">' + ({ auto: 'Automático', cuidador: 'Cuidador' }[g.quien] || 'Persona') + '</span><br>' + g.texto + '</div></li>';
+      h += '<li><time>' + reloj(g.ts) + '</time><div><span class="tag' + (g.quien === 'auto' ? '' : g.quien === 'some' ? ' some' : ' per') + '">' + ({ auto: 'Automático', some: 'Ventanilla SOME', cuidador: 'Cuidador' }[g.quien] || 'Persona') + '</span><br>' + g.texto + '</div></li>';
     });
     h += '</ul></section>';
     h += '<section class="tarjeta bloque"><h2>Reglas de asignación de esta prueba</h2><ol class="limpia">' +
@@ -1305,9 +1341,90 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       '<li><div><b>Orden de llegada</b>Recibe primero la oferta quien pidió primero.</div></li>' +
       '<li><div><b>Una oferta a la vez</b>Un cupo nunca se ofrece a dos personas al mismo tiempo, para no duplicar reservas.</div></li>' +
       '<li><div><b>Arrepentimiento</b>Quien canceló por error puede recuperar su hora mientras nadie más la haya aceptado.</div></li>' +
+      '<li><div><b>Mismo trato en ventanilla</b>Lo que se hace en el SOME entra al mismo banco y a la misma lista: nadie gana ni pierde lugar por ir en persona.</div></li>' +
       '<li><div><b>Cuidadores</b>Un familiar solo puede actuar si tiene permiso vigente, y todo queda a nombre de la persona.</div></li></ol>' +
       '<p class="suave chico">En una implementación real, los criterios clínicos de prioridad y el plazo de respuesta los define el CESFAM.</p></section></div></div>';
     return h;
+  }
+
+  /* ---------- Canal presencial: ventanilla del SOME ----------
+     Primera versión. Lo marcado como "Supuesto" es una propuesta del equipo, no un procedimiento confirmado con un CESFAM. */
+  function supuesto() { return ' <span class="sello gris">Supuesto</span>'; }
+  function vVentanilla() {
+    var f = ui.some, p = PERSONAS[f.persona], h = '';
+    var horasP = E.horas.filter(function (x) { return x.persona === f.persona && x.estado === 'reservada'; }).sort(function (a, b) { return a.fecha - b.fecha; });
+    var bloqueo = f.verificado ? '' : 'disabled';
+    var llamadas = llamadasPendientes(E);
+    h += '<section class="tarjeta bloque ventanilla" id="ventanilla" aria-labelledby="t-ventanilla"><div class="cab-ventanilla"><div><p class="ceja">Canal presencial · primera versión</p><h2 id="t-ventanilla">Atención en ventanilla del SOME</h2></div><span class="sello ambar">Con supuestos marcados</span></div>';
+    h += '<p class="suave">Para quien llega al SOME o llama por teléfono y no usa CupoSalud en el celular. El funcionario hace el trámite por la persona y el cupo entra al mismo banco de cupos.</p>';
+
+    if (llamadas.length) {
+      h += '<div class="llamadas"><h3>Llamadas pendientes (' + llamadas.length + ')</h3><p class="suave chico">Personas que pidieron aviso por teléfono. Llámelas, cuénteles la hora y registre lo que respondan.' + supuesto() + '</p><ul class="lista">';
+      llamadas.forEach(function (c) {
+        var q = PERSONAS[c.ofrecidoA];
+        h += '<li class="renglon"><div class="cab"><b>' + ico('telefono', 20) + ' Llamar a ' + q.nombre + ', ' + q.edad + ' años</b><span class="sello ambar">Esperando respuesta</span></div>' +
+          '<p class="chico">' + c.atencion + ' · ' + fechaLarga(c.fecha) + ', ' + horaTxt(c.fecha) + ' · ' + c.box + '</p>' +
+          '<p class="chico suave">Teléfono fijo de ejemplo: (2) 2000 0000. No se hace ninguna llamada real.</p>' +
+          '<div class="fila-btn">' + btn(ico('tic', 20) + ' Aceptó la hora', 'some-respuesta', 'data-id="' + c.id + '" data-valor="si"') +
+          btn('No le sirve', 'some-respuesta', 'data-id="' + c.id + '" data-valor="no"', 'borde') +
+          btn('No contestó', 'some-respuesta', 'data-id="' + c.id + '" data-valor="nocontesto"', 'borde') + '</div></li>';
+      });
+      h += '</ul></div>';
+    }
+
+    if (f.resultado) {
+      var r = f.resultado;
+      h += '<div class="comprobante" id="some-resultado" tabindex="-1"><p class="suave">' + (r.tipo === 'cancelacion' ? 'Comprobante de cancelación' : 'Comprobante de inscripción en lista de espera') + ' · entregado en ventanilla</p>' +
+        '<p class="folio">N° ' + r.folio + '</p><dl class="resumen"><dt>Persona</dt><dd>' + PERSONAS[r.persona].nombre + '</dd><dt>Atención</dt><dd>' + r.atencion + '</dd>' +
+        (r.tipo === 'cancelacion' ? '<dt>Hora cancelada</dt><dd>' + fechaLarga(r.fecha) + ', ' + horaTxt(r.fecha) + '</dd>' : '<dt>Horario</dt><dd>' + HORARIOS[r.horario] + '</dd><dt>Aviso</dt><dd>' + AVISOS[r.aviso] + '</dd>') +
+        '<dt>Registrado</dt><dd>hoy a las ' + reloj(r.ts) + '</dd></dl>' +
+        '<p class="nota" style="margin-top:.8rem">' + ico('escudo') + '<span>' + r.texto + '</span></p>' +
+        '<div class="fila-btn" style="margin-top:.8rem">' + btn(ico('imprimir', 20) + ' Imprimir comprobante', 'imprimir', '', 'borde') + btn('Atender a otra persona', 'some-nuevo', '', 'borde') + '</div></div>';
+    }
+
+    h += '<form class="bloque" id="form-some" style="gap:1.2rem">';
+    h += '<div class="campo"><label for="some-persona"><b>1. ¿A quién está atendiendo?</b></label><select id="some-persona">' +
+      Object.keys(PERSONAS).map(function (k) { var q = PERSONAS[k]; return '<option value="' + k + '"' + (k === f.persona ? ' selected' : '') + '>' + q.nombre + ', ' + q.edad + ' años' + (q.sinCelular ? ' · no usa celular' : '') + '</option>'; }).join('') + '</select>' +
+      '<span class="suave chico">Personas ficticias. En un CESFAM real se buscaría por RUT en la agenda del centro.</span></div>';
+    h += '<div class="campo"><b>2. Identidad</b><label class="opcion" for="some-verificado"><input type="checkbox" id="some-verificado"' + (f.verificado ? ' checked' : '') + '><span>Revisé la cédula de identidad de la persona (o el poder simple de quien viene en su nombre)' + supuesto() + '</span></label></div>';
+    h += '<fieldset><legend class="leyenda-chica">3. ¿Qué necesita?</legend>' + radios('some-tramite', [
+      { v: 'c', valor: 'cancelar', t: 'Avisar que no puede asistir', d: 'Cancelar una hora reservada' },
+      { v: 'e', valor: 'espera', t: 'Pedir una hora', d: 'Anotarse en la lista de espera' }], f.tramite) + '</fieldset>';
+
+    if (f.tramite === 'cancelar') {
+      h += '<div class="bloque" style="gap:.8rem"><b>Horas reservadas de ' + p.nombre + '</b>';
+      if (!horasP.length) h += '<p class="suave">No tiene horas reservadas.</p>';
+      else h += '<ul class="lista">' + horasP.map(function (x) {
+        return '<li class="renglon"><div class="cab"><b>' + x.atencion + ' · ' + fechaLarga(x.fecha) + ', ' + horaTxt(x.fecha) + '</b><span class="sello">Reservada</span></div><p class="chico suave">' + x.box + '</p>' +
+          '<div>' + btn('Cancelar esta hora', 'some-cancelar', 'data-id="' + x.id + '" ' + bloqueo, 'rojo-borde') + '</div></li>';
+      }).join('') + '</ul>';
+      h += '</div>';
+    } else {
+      h += '<div class="campo"><label for="some-atencion"><b>Atención</b></label><select id="some-atencion">' + ATENCIONES.map(function (a) { return '<option' + (a === f.atencion ? ' selected' : '') + '>' + a + '</option>'; }).join('') + '</select></div>';
+      h += '<fieldset><legend class="leyenda-chica">Horario que le acomoda</legend>' + radios('some-horario', [
+        { v: 'c', valor: 'cualquiera', t: 'Cualquier horario' }, { v: 'm', valor: 'manana', t: 'Mañana' }, { v: 't', valor: 'tarde', t: 'Tarde' }], f.horario) + '</fieldset>';
+      h += '<fieldset><legend class="leyenda-chica">¿Cómo le avisamos si se libera un cupo?</legend>' + radios('some-aviso', [
+        { v: 'l', valor: 'llamada', t: 'Llamada del SOME', d: 'Para quien no usa celular' },
+        { v: 'a', valor: 'app', t: 'Mensaje en CupoSalud' }, { v: 's', valor: 'sms', t: 'SMS', d: 'Simulado' }], f.aviso) + '</fieldset>';
+      h += '<div>' + btn('Anotar en la lista de espera', 'some-anotar', bloqueo) + '</div>';
+    }
+    if (!f.verificado) h += '<p class="suave chico">Primero marque que revisó la identidad. Así se evita cancelar la hora de otra persona por error.</p>';
+    h += '</form>';
+
+    h += '<details><summary>Supuestos de esta primera versión</summary><div><ul>' +
+      '<li>El funcionario revisa la cédula antes de tocar una hora. Si viene un familiar, trae un poder simple. Falta confirmar qué exige el CESFAM.</li>' +
+      '<li>A quien no usa celular, el SOME le avisa por teléfono fijo. El plazo para contestar y cuántas veces se intenta llamar los define el CESFAM.</li>' +
+      '<li>Si no contesta, el cupo pasa a la siguiente persona, igual que cuando vence el plazo en la app.</li>' +
+      '<li>La lista de espera es una sola para la app y la ventanilla: nadie se salta la fila por ir en persona.</li>' +
+      '<li>Se entrega un comprobante impreso con el mismo tipo de folio que en la app.</li>' +
+      '<li>En un CESFAM real esto tendría que conectarse con la agenda que ya usa el SOME. Esta demostración no se conecta a ningún sistema.</li>' +
+      '</ul></div></details>';
+    h += '</section>';
+    return h;
+  }
+  function irAlResultado() {
+    var el = $('some-resultado');
+    if (el) { try { el.focus({ preventScroll: true }); el.scrollIntoView({ block: 'center' }); } catch (e) { } }
   }
 
   /* ---------- Guía de la demostración ---------- */
@@ -1315,6 +1432,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     var activos = E.cupos.filter(function (c) { return c.estado !== 'devuelto'; });
     var of = activos.find(function (c) { return c.estado === 'ofrecido'; });
     if (!activos.length) return { n: 1, t: 'María Teresa avisa que no puede asistir. Abre su hora de Medicina general y cancélala.', b: 'Ir a la hora de María Teresa', ir: 'g1' };
+    if (of && PERSONAS[of.ofrecidoA].sinCelular) return { n: 2, t: PERSONAS[of.ofrecidoA].nombre + ' no usa celular: el SOME llama por teléfono y registra su respuesta en el panel del equipo.', b: 'Abrir el panel del equipo', ir: 'g3' };
     if (of) { var nom = PERSONAS[of.ofrecidoA].nombre; return { n: 2, t: 'El sistema ofreció el cupo a ' + nom + ' sin que nadie llamara. Responde desde sus mensajes.', b: 'Ver los mensajes de ' + nom, ir: 'g2', dato: of.ofrecidoA }; }
     if (activos.some(function (c) { return c.estado === 'reasignado'; })) {
       if (ui.vista === 'equipo') return { n: 3, t: 'Recorrido completo: el cupo se recuperó y quedó registrado paso a paso.', b: 'Reiniciar la demostración', ir: 'reiniciar' };
@@ -1443,7 +1561,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       var por = b.dataset.por || null, nom = PERSONAS[x.persona].nombre;
       preguntar({ titulo: por ? '¿Cancelar la hora de ' + nom + '?' : '¿Quieres cancelar esta hora?', rojo: true, si: por ? 'Sí, cancelar su hora' : 'Sí, cancelar mi hora', no: por ? 'No, mantener su hora' : 'No, mantener mi hora',
         cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>' + (por ? 'El cupo se ofrecerá a otra persona que está esperando. ' + nom + ' recibirá el comprobante en sus mensajes.' : 'Tu cupo se ofrecerá a otra persona que está esperando.') + '</p>' }, function () {
-        var ahora = Date.now(), r = cancelarHora(E, x.id, ahora, por);
+        var ahora = Date.now(), r = cancelarHora(E, x.id, ahora, null, por);
         if (!r.ok) { decir(r.motivo); pintar(); return; }
         if (por) { pintar(false); decir('Hora cancelada. Comprobante N° ' + r.folio + '. ' + nom + ' también recibió el aviso.'); return; }
         ui.comprobante = { tipo: 'cancelacion', folio: r.folio, horaId: x.id, atencion: x.atencion, fecha: x.fecha, ts: ahora, ofrecido: r.cupo.estado === 'ofrecido' };
@@ -1455,7 +1573,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       var por = b.dataset.por || null, quien = por ? c.ofrecidoA : ui.persona;
       preguntar({ titulo: por ? '¿Reservar esta hora para ' + PERSONAS[quien].nombre + '?' : '¿Reservar esta hora?', si: 'Sí, reservar esta hora', no: 'Volver',
         cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '<br>CESFAM de ejemplo, ' + c.box + '</p><p>' + (por ? 'Quedará a nombre de ' + PERSONAS[quien].nombre + ' y se le avisará.' : 'Quedará anotada en Mis horas.') + '</p>' }, function () {
-        var r = aceptarOferta(E, c.id, quien, Date.now(), por);
+        var r = aceptarOferta(E, c.id, quien, Date.now(), null, por);
         if (!r.ok) { decir(r.motivo); pintar(); return; }
         if (por) { pintar(false); decir('Hora reservada para ' + PERSONAS[quien].nombre + '. Comprobante N° ' + r.folio + '.'); return; }
         ui.comprobante = { tipo: 'reserva', folio: r.folio, id: r.hora.id, atencion: c.atencion, fecha: c.fecha, box: c.box };
@@ -1467,7 +1585,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       var por = b.dataset.por || null, quien = por ? c.ofrecidoA : ui.persona, nom = PERSONAS[quien].nombre;
       preguntar({ titulo: por ? '¿Esta hora no le sirve a ' + nom + '?' : '¿Esta hora no te sirve?', si: por ? 'No le sirve, ofrézcanla a otra persona' : 'No me sirve, ofrézcanla a otra persona', no: 'Volver',
         cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '</p><p>' + (por ? nom + ' seguirá en la lista de espera y sus otras horas no cambian.' : 'Seguirás en la lista de espera y tus otras horas no cambian.') + '</p>' }, function () {
-        var r = descartarOferta(E, c.id, quien, 'rechazo', Date.now(), por);
+        var r = descartarOferta(E, c.id, quien, 'rechazo', Date.now(), null, por);
         pintar(!por); decir(r.ok ? (por ? 'Listo. ' + nom + ' sigue en la lista de espera.' : 'Listo. Sigues en la lista de espera.') : r.motivo);
       });
     },
@@ -1512,10 +1630,40 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     },
     'cuidador-pedir': function (b) {
       var persona = b.dataset.id, por = b.dataset.por, nom = PERSONAS[persona].nombre;
-      var r = pedirHora(E, persona, $('cu-atencion').value, $('cu-horario').value, 'app', Date.now(), por);
+      var r = pedirHora(E, persona, $('cu-atencion').value, $('cu-horario').value, 'app', Date.now(), null, por);
       if (!r.ok) { decir(r.motivo); return; }
       pintar(false); decir(r.oferta ? 'Solicitud enviada, y ya hay un cupo para ' + nom + '. Revísalo arriba.' : 'Solicitud enviada. ' + nom + ' quedó en lista de espera.');
     },
+    'some-cancelar': function (b) {
+      var f = ui.some, x = E.horas.find(function (q) { return q.id === b.dataset.id; }); if (!x || !f.verificado) return;
+      var nom = PERSONAS[x.persona].nombre;
+      preguntar({ titulo: '¿Cancelar la hora de ' + nom + '?', rojo: true, si: 'Sí, cancelar la hora', no: 'Volver',
+        cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>Léale en voz alta la fecha y la hora a la persona y pídale que confirme antes de seguir.</p>' }, function () {
+        var ahora = Date.now(), r = cancelarHora(E, x.id, ahora, 'some');
+        if (!r.ok) { decir(r.motivo); pintar(false); return; }
+        var sig = r.cupo.estado === 'ofrecido' ? PERSONAS[r.cupo.ofrecidoA].nombre : null;
+        f.resultado = { tipo: 'cancelacion', folio: r.folio, persona: x.persona, atencion: x.atencion, fecha: x.fecha, ts: ahora,
+          texto: sig ? 'El cupo entró al banco y el sistema ya se lo ofreció a ' + sig + ', que estaba en lista de espera.' : 'El cupo entró al banco. Se ofrecerá a la primera persona que pida esta atención.' };
+        pintar(false); irAlResultado();
+      });
+    },
+    'some-anotar': function () {
+      var f = ui.some; if (!f.verificado) return;
+      var ahora = Date.now(), r = pedirHora(E, f.persona, f.atencion, f.horario, f.aviso, ahora, 'some');
+      if (!r.ok) { decir(r.motivo); return; }
+      E.folio += 1;
+      var txt = r.oferta ? 'Había un cupo guardado en el banco que le sirve: ' + fechaLarga(r.oferta.fecha) + ' a las ' + horaTxt(r.oferta.fecha) + '. ' + (f.aviso === 'llamada' ? 'Puede ofrecérselo ahora mismo en la ventanilla: aparece en Llamadas pendientes.' : 'Se le envió la oferta.') : 'Quedó en la lista de espera, en el mismo orden que quienes piden desde el celular. ' + (f.aviso === 'llamada' ? 'Cuando se libere un cupo, aparecerá en Llamadas pendientes para llamar a la persona.' : 'Recibirá el aviso que eligió.');
+      f.resultado = { tipo: 'espera', folio: 'CS-' + E.folio, persona: f.persona, atencion: f.atencion, horario: f.horario, aviso: f.aviso, ts: ahora, texto: txt };
+      pintar(false); irAlResultado();
+    },
+    'some-respuesta': function (b) {
+      var c = E.cupos.find(function (q) { return q.id === b.dataset.id; }); if (!c || c.estado !== 'ofrecido') return;
+      var quien = c.ofrecidoA, v = b.dataset.valor, ahora = Date.now(), r;
+      if (v === 'si') { r = aceptarOferta(E, c.id, quien, ahora, 'some'); decir(r.ok ? 'Hora reservada para ' + PERSONAS[quien].nombre + '. Comprobante N° ' + r.folio + '.' : r.motivo); }
+      else { r = descartarOferta(E, c.id, quien, v === 'no' ? 'rechazo' : 'vencio', ahora, 'some'); decir(r.ok ? (r.siguiente ? 'Registrado. La oferta pasó a ' + PERSONAS[r.siguiente.persona].nombre + '.' : 'Registrado. El cupo quedó en el banco.') : r.motivo); }
+      pintar(false);
+    },
+    'some-nuevo': function () { ui.some = someInicial(ui.some.persona); pintar(false); var s = $('some-persona'); if (s) s.focus(); },
     'pedir-paso': function (b) { ui.pedir.paso = Number(b.dataset.valor); pintar(); },
     'pedir-enviar': function () {
       var f = ui.pedir, r = pedirHora(E, ui.persona, f.atencion, f.horario, f.aviso, Date.now());
@@ -1530,14 +1678,23 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
   document.addEventListener('change', function (ev) {
     var t = ev.target;
     if (t.id === 'sel-persona') { callar(); ui.persona = t.value; ui.pagina = 'inicio'; pintar(); return; }
+    if (t.id === 'some-persona') { ui.some = someInicial(t.value); pintar(false); $('some-persona').focus(); return; }
+    if (t.id === 'some-verificado') { ui.some.verificado = t.checked; pintar(false); $('some-verificado').focus(); return; }
+    if (t.id === 'some-atencion') { ui.some.atencion = t.value; return; }
+    if (t.type === 'radio' && t.name.indexOf('some-') === 0) {
+      var k = t.name.slice(5); ui.some[k] = t.value;
+      if (k === 'tramite') { ui.some.resultado = null; pintar(false); var r = $(t.id); if (r) r.focus(); }
+      return;
+    }
     if (t.type === 'radio' && ui.pedir[t.name] !== undefined) ui.pedir[t.name] = t.value;
   });
   document.addEventListener('submit', function (ev) { ev.preventDefault(); });
 
   /* ---------- Arranque ---------- */
   function arrancar(previo) {
-    $('sel-persona').innerHTML = Object.keys(PERSONAS).map(function (k) { return '<option value="' + k + '">' + PERSONAS[k].nombre + ' · ' + PERSONAS[k].edad + ' años</option>'; }).join('');
+    $('sel-persona').innerHTML = Object.keys(PERSONAS).filter(function (k) { return !PERSONAS[k].sinCelular; }).map(function (k) { return '<option value="' + k + '">' + PERSONAS[k].nombre + ' · ' + PERSONAS[k].edad + ' años</option>'; }).join('');
     if (previo && previo.E && previo.ui) { E = previo.E; ui = previo.ui; } else { E = crearEstado(Date.now()); ui = uiInicial(); }
+    if (!ui.some) ui.some = someInicial('ro');
     ponerLetra(Number(leer('letra')) || 1);
     ponerContraste(leer('contraste') === '1');
     pintar(false);
@@ -1563,5 +1720,6 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
   ruta();
 })();
 </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}</script>
 </body>
 </html>
