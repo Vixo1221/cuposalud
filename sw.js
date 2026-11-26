@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cuposalud-v2';
+const CACHE_NAME = 'cuposalud-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -10,7 +10,7 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())
   );
 });
 
@@ -22,9 +22,23 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Red primero: si hay internet se usa siempre la versión publicada más nueva
+// y se guarda una copia; sin internet se muestra la última copia guardada.
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const req = event.request;
+  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(req, { cache: 'no-cache' })
+      .then((res) => {
+        if (res && res.ok) {
+          const copia = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(req, copia));
+        }
+        return res;
+      })
+      .catch(() =>
+        caches.match(req, { ignoreSearch: req.mode === 'navigate' })
+          .then((cached) => cached || (req.mode === 'navigate' ? caches.match('./index.html') : undefined))
+      )
   );
 });
