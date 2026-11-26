@@ -131,6 +131,8 @@ main{padding:1.6rem 1rem 7.5rem;min-width:0}
 .btn.borde:hover{background:var(--menta)}
 .btn.rojo{background:var(--rojo);border-color:var(--rojo);color:#fff}
 .btn.rojo-borde{background:var(--carta);border-color:var(--rojo);color:var(--rojo)}
+.campo{display:flex;flex-direction:column;gap:.4rem;font-weight:700}
+.campo select{min-height:3rem;border:2px solid var(--linea);border-radius:12px;padding:.5rem .8rem;background:var(--carta);font-weight:400}
 .btn.ancho{width:100%}
 .fila-btn{display:flex;flex-wrap:wrap;gap:.8rem}
 .volver{background:none;border:0;padding:.4rem 0;font-weight:700;color:var(--pino);text-decoration:underline;cursor:pointer;align-self:flex-start;min-height:2.6rem;font-size:1.05rem}
@@ -501,7 +503,7 @@ a.btn{text-decoration:none}
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 26l1.6-5.2A11 11 0 1 1 11 24.4z"/></svg></span><b>Avisar a la familia <span class="s-tag">En la demo</span></b><span class="d">La hora se envía por WhatsApp a un hijo, hija o cuidador, con un mensaje ya escrito.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V4h14v8M9 24H5V12h22v12h-4"/><path d="M9 19h14v9H9z"/></svg></span><b>Recordatorio e impresión <span class="s-tag">En la demo</span></b><span class="d">La hora se guarda en el calendario del teléfono, con aviso un día antes, o se imprime en papel.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h5l2 6-3 2a16 16 0 0 0 9 9l2-3 6 2v5a2 2 0 0 1-2 2A22 22 0 0 1 5 6a2 2 0 0 1 2-2z"/></svg></span><b>Teléfonos de ayuda reales <span class="s-tag">En la demo</span></b><span class="d">SAMU, Salud Responde y Fono Mayor, para llamar con un toque desde la sección Ayuda.</span></li>
-        <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4 3-7 7-7s7 3 7 7M18 26c0-3 2-5 4-5s5 2 5 5"/></svg></span><b>Apoyo de un familiar o cuidador <span class="s-tag prop">Propuesto</span></b><span class="d">Un cuidador autorizado podría gestionar las horas de la persona.</span></li>
+        <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4 3-7 7-7s7 3 7 7M18 26c0-3 2-5 4-5s5 2 5 5"/></svg></span><b>Apoyo de un familiar o cuidador <span class="s-tag">En la demo</span></b><span class="d">Un familiar autorizado en el SOME recibe los avisos y puede confirmar, cancelar o aceptar horas por la persona. No ve la ficha clínica.</span></li>
         <li><span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M4 13 16 4l12 9v13H4z"/></svg></span><b>Canal presencial de respaldo <span class="s-tag prop">Propuesto</span></b><span class="d">Quien no use el celular puede hacer lo mismo en el SOME, y su cupo igual entra al banco.</span></li>
       </ul>
     </div>
@@ -605,6 +607,7 @@ a.btn{text-decoration:none}
     <div class="empuje">
       <div class="cambio" role="group" aria-label="Vista">
         <button type="button" id="ver-persona" data-accion="vista" data-valor="persona" aria-pressed="true">Persona mayor</button>
+        <button type="button" id="ver-cuidador" data-accion="vista" data-valor="cuidador" aria-pressed="false">Familiar o cuidador</button>
         <button type="button" id="ver-equipo" data-accion="vista" data-valor="equipo" aria-pressed="false">Equipo CESFAM</button>
       </div>
       <label for="sel-persona">Probar como
@@ -664,6 +667,12 @@ var PERSONAS = {
   el: { id: 'el', nombre: 'Elena', edad: 75, iniciales: 'EL' },
   lu: { id: 'lu', nombre: 'Luis Alberto', edad: 81, iniciales: 'LA' }
 };
+/* Apoyo de un familiar o cuidador (primera versión).
+   SUPUESTO: la persona mayor autoriza a su cuidador en el SOME, presentando su cédula, y puede quitarle el permiso cuando quiera.
+   SUPUESTO: el cuidador solo ve y gestiona horas y avisos. No ve diagnósticos ni la ficha clínica. */
+var CUIDADORES = {
+  ca: { id: 'ca', nombre: 'Carolina', edad: 49, iniciales: 'CA' }
+};
 var ATENCIONES = ['Medicina general', 'Enfermería', 'Kinesiología', 'Odontología'];
 var HORARIOS = { cualquiera: 'Cualquier horario', manana: 'Mañana', tarde: 'Tarde' };
 var AVISOS = { app: 'Mensaje en CupoSalud', sms: 'SMS', whatsapp: 'WhatsApp' };
@@ -697,6 +706,9 @@ function crearEstado(ahora) {
       { id: 's2', persona: 'jc', atencion: 'Medicina general', horario: 'cualquiera', aviso: 'app', creada: ahora - 5 * DIA, estado: 'espera' },
       { id: 's3', persona: 'el', atencion: 'Medicina general', horario: 'manana', aviso: 'app', creada: ahora - 3 * DIA, estado: 'espera' }
     ],
+    autorizaciones: [
+      { cuidador: 'ca', persona: 'lu', relacion: 'hija', estado: 'vigente', desde: ahora - 20 * DIA, via: 'SOME' }
+    ],
     cupos: [], mensajes: [], registro: []
   };
 }
@@ -706,6 +718,36 @@ function avisar(E, ahora, para, tipo, datos) {
   var m = { id: nuevoId(E, 'm'), para: para, tipo: tipo, ts: ahora, leido: false };
   for (var k in datos) m[k] = datos[k];
   E.mensajes.push(m); return m;
+}
+
+/* Cuidadores: solo puede actuar quien tiene una autorización vigente de esa persona. */
+function autorizacion(E, cuidador, persona) {
+  return (E.autorizaciones || []).find(function (a) { return a.cuidador === cuidador && a.persona === persona; }) || null;
+}
+function puedeGestionar(E, cuidador, persona) { var a = autorizacion(E, cuidador, persona); return !!a && a.estado === 'vigente'; }
+function sinPermiso(E, por, persona) {
+  return { ok: false, motivo: 'No tienes una autorización vigente para gestionar las horas de ' + PERSONAS[persona].nombre + '.' };
+}
+/* Anota lo que hizo la persona o, si actuó su cuidador, deja claro quién lo hizo. */
+function anotarPersona(E, ahora, persona, por, texto) {
+  if (!por) { anotar(E, ahora, 'persona', texto); return; }
+  var a = autorizacion(E, por, persona);
+  anotar(E, ahora, 'cuidador', texto + ' Lo hizo ' + CUIDADORES[por].nombre + (a ? ', su ' + a.relacion + ',' : '') + ' con autorización.');
+}
+function revocarCuidador(E, cuidador, persona, ahora) {
+  var a = autorizacion(E, cuidador, persona);
+  if (!a || a.estado !== 'vigente') return { ok: false, motivo: 'Ese permiso ya no estaba vigente.' };
+  a.estado = 'revocada'; a.hasta = ahora;
+  anotar(E, ahora, 'persona', PERSONAS[persona].nombre + ' quitó el permiso a ' + CUIDADORES[cuidador].nombre + ' para gestionar sus horas.');
+  return { ok: true };
+}
+function autorizarCuidador(E, cuidador, persona, ahora) {
+  var a = autorizacion(E, cuidador, persona);
+  if (!a) return { ok: false, motivo: 'No hay un cuidador registrado.' };
+  if (a.estado === 'vigente') return { ok: false, motivo: 'El permiso ya está vigente.' };
+  a.estado = 'vigente'; a.desde = ahora; a.hasta = null; a.via = 'SOME';
+  anotar(E, ahora, 'persona', PERSONAS[persona].nombre + ' volvió a autorizar a ' + CUIDADORES[cuidador].nombre + ' en el SOME.');
+  return { ok: true };
 }
 
 /* Regla de compatibilidad: misma atención, horario que le sirve, no es quien liberó el cupo,
@@ -737,17 +779,18 @@ function ofrecer(E, cupo, ahora) {
   anotar(E, ahora, 'auto', 'No hay personas compatibles en espera. El cupo queda en el banco.');
   return null;
 }
-function cancelarHora(E, horaId, ahora) {
+function cancelarHora(E, horaId, ahora, por) {
   var h = E.horas.find(function (x) { return x.id === horaId; });
   if (!h || h.estado !== 'reservada') return { ok: false, motivo: 'Esta hora ya no está reservada.' };
+  if (por && !puedeGestionar(E, por, h.persona)) return sinPermiso(E, por, h.persona);
   h.estado = 'cancelada'; E.folio += 1;
   var folio = 'CS-' + E.folio;
   var cupo = { id: nuevoId(E, 'c'), hora: h.id, atencion: h.atencion, fecha: h.fecha, box: h.box, liberadoPor: h.persona, liberadoEn: ahora,
     estado: 'liberado', ofrecidoA: null, asignadoA: null, solicitud: null, reasignadoEn: null, descartes: [] };
   E.cupos.push(cupo);
-  anotar(E, ahora, 'persona', PERSONAS[h.persona].nombre + ' canceló su hora de ' + h.atencion + '.');
+  anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' canceló su hora de ' + h.atencion + '.');
   anotar(E, ahora, 'auto', 'Cupo liberado e ingresado al banco de cupos.');
-  avisar(E, ahora, h.persona, 'cancelacion', { atencion: h.atencion, fecha: h.fecha, folio: folio });
+  avisar(E, ahora, h.persona, 'cancelacion', { atencion: h.atencion, fecha: h.fecha, folio: folio, por: por || null });
   ofrecer(E, cupo, ahora);
   return { ok: true, folio: folio, cupo: cupo, hora: h };
 }
@@ -760,59 +803,64 @@ function puedeRecuperar(E, horaId) {
   var h = E.horas.find(function (x) { return x.id === horaId; }), c = cupoDeHora(E, horaId);
   return !!h && h.estado === 'cancelada' && !!c && (c.estado === 'ofrecido' || c.estado === 'disponible');
 }
-function recuperarHora(E, horaId, ahora) {
+function recuperarHora(E, horaId, ahora, por) {
   var h = E.horas.find(function (x) { return x.id === horaId; }), c = cupoDeHora(E, horaId);
   if (!h || h.estado !== 'cancelada' || !c) return { ok: false, motivo: 'Esta hora no se puede recuperar.' };
+  if (por && !puedeGestionar(E, por, h.persona)) return sinPermiso(E, por, h.persona);
   if (c.estado === 'reasignado') return { ok: false, motivo: 'Lo sentimos: otra persona ya aceptó esta hora.' };
   if (c.estado !== 'ofrecido' && c.estado !== 'disponible') return { ok: false, motivo: 'Esta hora ya fue recuperada.' };
   if (c.estado === 'ofrecido') anotar(E, ahora, 'auto', 'Oferta a ' + PERSONAS[c.ofrecidoA].nombre + ' retirada: la hora volvió a quien la canceló.');
   c.estado = 'devuelto'; c.ofrecidoA = null; c.solicitud = null;
   h.estado = 'reservada';
-  anotar(E, ahora, 'persona', PERSONAS[h.persona].nombre + ' recuperó su hora de ' + h.atencion + ' (había cancelado por error).');
-  avisar(E, ahora, h.persona, 'recuperada', { atencion: h.atencion, fecha: h.fecha, box: h.box });
+  anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' recuperó su hora de ' + h.atencion + ' (había cancelado por error).');
+  avisar(E, ahora, h.persona, 'recuperada', { atencion: h.atencion, fecha: h.fecha, box: h.box, por: por || null });
   return { ok: true, hora: h };
 }
-function confirmarAsistencia(E, horaId, ahora) {
+function confirmarAsistencia(E, horaId, ahora, por) {
   var h = E.horas.find(function (x) { return x.id === horaId; });
   if (!h || h.estado !== 'reservada') return { ok: false };
+  if (por && !puedeGestionar(E, por, h.persona)) return sinPermiso(E, por, h.persona);
   h.confirmada = true;
-  anotar(E, ahora, 'persona', PERSONAS[h.persona].nombre + ' confirmó que asistirá a ' + h.atencion + '.');
+  anotarPersona(E, ahora, h.persona, por, PERSONAS[h.persona].nombre + ' confirmó que asistirá a ' + h.atencion + '.');
   return { ok: true };
 }
 /* Un cupo solo puede aceptarlo la persona a quien está ofrecido en ese momento: así no se asigna dos veces. */
-function aceptarOferta(E, cupoId, persona, ahora) {
+function aceptarOferta(E, cupoId, persona, ahora, por) {
   var cupo = E.cupos.find(function (x) { return x.id === cupoId; });
   if (!cupo || cupo.estado !== 'ofrecido' || cupo.ofrecidoA !== persona) return { ok: false, motivo: 'Este cupo ya no está disponible.' };
+  if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
   E.folio += 1; var folio = 'CS-' + E.folio;
   var hora = { id: nuevoId(E, 'h'), persona: persona, atencion: cupo.atencion, fecha: cupo.fecha, box: cupo.box, estado: 'reservada', confirmada: true, origen: 'cuposalud' };
   E.horas.push(hora);
   cupo.estado = 'reasignado'; cupo.asignadoA = persona; cupo.ofrecidoA = null; cupo.reasignadoEn = ahora;
   var sol = E.solicitudes.find(function (s) { return s.id === cupo.solicitud; });
   if (sol) sol.estado = 'resuelta';
-  avisar(E, ahora, persona, 'reserva', { atencion: cupo.atencion, fecha: cupo.fecha, box: cupo.box, folio: folio });
-  anotar(E, ahora, 'persona', PERSONAS[persona].nombre + ' aceptó la oferta.');
+  avisar(E, ahora, persona, 'reserva', { atencion: cupo.atencion, fecha: cupo.fecha, box: cupo.box, folio: folio, por: por || null });
+  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' aceptó la oferta.');
   anotar(E, ahora, 'auto', 'Cupo reasignado y agenda actualizada. Sin llamadas.');
   return { ok: true, folio: folio, hora: hora };
 }
-function descartarOferta(E, cupoId, persona, motivo, ahora) {
+function descartarOferta(E, cupoId, persona, motivo, ahora, por) {
   var cupo = E.cupos.find(function (x) { return x.id === cupoId; });
   if (!cupo || cupo.estado !== 'ofrecido' || cupo.ofrecidoA !== persona) return { ok: false, motivo: 'Esta oferta ya no está vigente.' };
+  if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
   cupo.descartes.push({ persona: persona, motivo: motivo });
   if (motivo === 'vencio') {
     avisar(E, ahora, persona, 'vencida', { atencion: cupo.atencion, fecha: cupo.fecha });
     anotar(E, ahora, 'auto', 'Venció el plazo de respuesta de ' + PERSONAS[persona].nombre + '.');
   } else {
-    anotar(E, ahora, 'persona', PERSONAS[persona].nombre + ' rechazó la oferta. Sigue en lista de espera.');
+    anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' rechazó la oferta. Sigue en lista de espera.');
   }
   var siguiente = ofrecer(E, cupo, ahora);
   return { ok: true, siguiente: siguiente };
 }
-function pedirHora(E, persona, atencion, horario, aviso, ahora) {
+function pedirHora(E, persona, atencion, horario, aviso, ahora, por) {
+  if (por && !puedeGestionar(E, por, persona)) return sinPermiso(E, por, persona);
   if (E.solicitudes.some(function (s) { return s.persona === persona && s.atencion === atencion && s.estado === 'espera'; }))
-    return { ok: false, motivo: 'Ya tienes una solicitud de ' + atencion + ' en lista de espera.' };
-  var sol = { id: nuevoId(E, 's'), persona: persona, atencion: atencion, horario: horario, aviso: aviso, creada: ahora, estado: 'espera' };
+    return { ok: false, motivo: (por ? PERSONAS[persona].nombre + ' ya tiene' : 'Ya tienes') + ' una solicitud de ' + atencion + ' en lista de espera.' };
+  var sol = { id: nuevoId(E, 's'), persona: persona, atencion: atencion, horario: horario, aviso: aviso, creada: ahora, estado: 'espera', por: por || null };
   E.solicitudes.push(sol);
-  anotar(E, ahora, 'persona', PERSONAS[persona].nombre + ' pidió una hora de ' + atencion + '.');
+  anotarPersona(E, ahora, persona, por, PERSONAS[persona].nombre + ' pidió una hora de ' + atencion + '.');
   var libres = E.cupos.filter(function (c) { return c.estado === 'disponible'; }).sort(function (a, b) { return a.fecha - b.fecha; });
   for (var i = 0; i < libres.length; i++) {
     if (esCompatible(E, libres[i], sol)) { ofrecerA(E, libres[i], sol, ahora); return { ok: true, solicitud: sol, oferta: libres[i] }; }
@@ -833,7 +881,8 @@ function resumen(E) {
 function antesQueYo(E, sol) {
   return E.solicitudes.filter(function (s) { return s.estado === 'espera' && s.atencion === sol.atencion && s.creada < sol.creada; }).length;
 }
-if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, cancelarHora: cancelarHora, aceptarOferta: aceptarOferta, descartarOferta: descartarOferta, pedirHora: pedirHora, resumen: resumen, confirmarAsistencia: confirmarAsistencia, recuperarHora: recuperarHora, puedeRecuperar: puedeRecuperar, PERSONAS: PERSONAS };
+if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, cancelarHora: cancelarHora, aceptarOferta: aceptarOferta, descartarOferta: descartarOferta, pedirHora: pedirHora, resumen: resumen, confirmarAsistencia: confirmarAsistencia, recuperarHora: recuperarHora, puedeRecuperar: puedeRecuperar, PERSONAS: PERSONAS,
+  CUIDADORES: CUIDADORES, puedeGestionar: puedeGestionar, revocarCuidador: revocarCuidador, autorizarCuidador: autorizarCuidador };
 </script>
 
 <script>
@@ -860,7 +909,8 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     whatsapp: '<path d="M6 26l1.6-5.2A11 11 0 1 1 11 24.4z"/><path d="M12.5 11.5c0 4 3.5 8 8 8l1.5-2-2.5-1.5-1.2 1c-1.5-.6-2.7-1.8-3.3-3.3l1-1.2-1.5-2.5z"/>',
     imprimir: '<path d="M9 12V4h14v8M9 24H5V12h22v12h-4"/><path d="M9 19h14v9H9z"/>',
     telefono: '<path d="M7 4h5l2 6-3 2a16 16 0 0 0 9 9l2-3 6 2v5a2 2 0 0 1-2 2A22 22 0 0 1 5 6a2 2 0 0 1 2-2z"/>',
-    deshacer: '<path d="M10 8 4 14l6 6M4 14h14a8 8 0 0 1 0 16h-4"/>'
+    deshacer: '<path d="M10 8 4 14l6 6M4 14h14a8 8 0 0 1 0 16h-4"/>',
+    familia: '<circle cx="11" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4 3-7 7-7s7 3 7 7M18 26c0-3 2-5 4-5s5 2 5 5"/>'
   };
   function ico(n, t) { t = t || 26; return '<svg width="' + t + '" height="' + t + '" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICO[n] + '</svg>'; }
 
@@ -873,13 +923,20 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
   ];
 
   function uiInicial() {
-    return { vista: 'persona', persona: 'mt', pagina: 'inicio', detalle: null, comprobante: null, guia: true,
+    return { vista: 'persona', persona: 'mt', cuidador: 'ca', pagina: 'inicio', detalle: null, comprobante: null, guia: true,
       pedir: { paso: 1, atencion: 'Medicina general', horario: 'cualquiera', aviso: 'app', resultado: null } };
   }
   function yo() { return PERSONAS[ui.persona]; }
   function misHoras() { return E.horas.filter(function (h) { return h.persona === ui.persona && h.estado === 'reservada'; }).sort(function (a, b) { return a.fecha - b.fecha; }); }
   function misOfertas() { return E.cupos.filter(function (c) { return c.estado === 'ofrecido' && c.ofrecidoA === ui.persona; }); }
   function sinLeer() { return E.mensajes.filter(function (m) { return m.para === ui.persona && !m.leido; }).length; }
+  /* Quién ayuda a la persona actual (vigente o no) y a quién ayuda el cuidador actual */
+  function misCuidadores() { return (E.autorizaciones || []).filter(function (a) { return a.persona === ui.persona; }); }
+  function aQuienAyudo() { return (E.autorizaciones || []).filter(function (a) { return a.cuidador === ui.cuidador; }); }
+  function porTxt(m) {
+    if (!m.por) return '';
+    return '<p class="suave chico">Lo hizo ' + CUIDADORES[m.por].nombre + ' por ti, con tu autorización.</p>';
+  }
 
   /* ---------- Piezas ---------- */
   function boleto(d, opc) {
@@ -962,6 +1019,9 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       atajo('pedir', 'Pedir una hora', 'Dinos qué atención necesitas y buscamos un cupo.') +
       atajo('mensajes', 'Mis mensajes', 'Avisos y horas disponibles para ti.', sinLeer()) +
       atajo('ayuda', 'Ayuda y teléfonos', 'Paso a paso y números para llamar.') + '</div></section>';
+    misCuidadores().forEach(function (a) {
+      if (a.estado === 'vigente') h += '<p class="nota">' + ico('familia') + '<span><b>' + CUIDADORES[a.cuidador].nombre + ', tu ' + a.relacion + ', te ayuda con tus horas.</b> También recibe tus avisos y puede responder por ti. Puedes cambiar esto en Ayuda.</span></p>';
+    });
     h += '<p class="nota">' + ico('escudo') + '<span>Si no puedes asistir, avísanos aquí. Tu cupo se ofrece automáticamente a otra persona que lo está esperando.</span></p>';
     return h;
   }
@@ -1082,11 +1142,11 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
           h += '<article class="mensaje"><b>Oferta: ' + m.atencion + ', ' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + '</b><p>' + fin + '</p>' + cuando + '</article>';
         }
       } else if (m.tipo === 'cancelacion') {
-        h += '<article class="mensaje"><b>Cancelaste tu hora de ' + m.atencion + nuevo + '</b><p>Era el ' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + '. Comprobante N° ' + m.folio + '.</p>' + cuando + '</article>';
+        h += '<article class="mensaje"><b>Cancelaste tu hora de ' + m.atencion + nuevo + '</b><p>Era el ' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + '. Comprobante N° ' + m.folio + '.</p>' + porTxt(m) + cuando + '</article>';
       } else if (m.tipo === 'reserva') {
-        h += '<article class="mensaje"><b>Tu hora de ' + m.atencion + ' quedó reservada' + nuevo + '</b><p>' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + ', ' + m.box + '. Comprobante N° ' + m.folio + '.</p>' + cuando + '</article>';
+        h += '<article class="mensaje"><b>Tu hora de ' + m.atencion + ' quedó reservada' + nuevo + '</b><p>' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + ', ' + m.box + '. Comprobante N° ' + m.folio + '.</p>' + porTxt(m) + cuando + '</article>';
       } else if (m.tipo === 'recuperada') {
-        h += '<article class="mensaje"><b>Recuperaste tu hora de ' + m.atencion + nuevo + '</b><p>' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + ', ' + m.box + '. Sigue reservada a tu nombre.</p>' + cuando + '</article>';
+        h += '<article class="mensaje"><b>Recuperaste tu hora de ' + m.atencion + nuevo + '</b><p>' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + ', ' + m.box + '. Sigue reservada a tu nombre.</p>' + porTxt(m) + cuando + '</article>';
       } else if (m.tipo === 'vencida') {
         h += '<article class="mensaje"><b>La oferta de ' + m.atencion + ' venció' + nuevo + '</b><p>No alcanzaste a responder. Sigues en la lista de espera.</p>' + cuando + '</article>';
       }
@@ -1102,6 +1162,7 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       '<li><div><b>Espera tu aviso</b>Si alguien cancela una hora que te sirve, el sistema te la ofrece en “Mis mensajes”.</div></li>' +
       '<li><div><b>Acepta y guarda tu hora</b>Revisa la fecha. Si puedes asistir, acepta. Tu reserva aparecerá en “Mis horas”.</div></li></ol>' +
       '<div>' + btn('Quiero pedir una hora', 'ir', 'data-valor="pedir"') + '</div></section>' +
+      quienMeAyuda() +
       fonos() +
       '<section class="bloque"><h2>Preguntas frecuentes</h2>' +
       q('¿Cómo agrando las letras?', 'Arriba de la página, toca el botón A+ hasta que leas con comodidad. Con A− vuelven a achicarse.') +
@@ -1113,9 +1174,88 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       q('¿Y si no tengo celular o no me manejo con él?', 'Un familiar puede ayudarte, o puedes hacer el trámite en la ventanilla (SOME) de tu CESFAM. La propuesta considera que el personal registre ahí tu aviso, para que tu cupo igual se aproveche.') +
       q('¿Rechazar una oferta cancela mis otras horas?', 'No. Tus horas reservadas no cambian y sigues en la lista de espera.') +
       q('¿A quién se le ofrece un cupo liberado?', 'A la persona que espera esa misma atención, a quien le sirve el horario y que pidió primero. En un CESFAM real, el orden de prioridad lo definiría el propio centro de salud.') +
-      q('¿Puede ayudarme un familiar?', 'Sí, un familiar o cuidador puede hacer estos pasos contigo. La propuesta considera que un cuidador autorizado pueda gestionar tus horas; esta demostración todavía no registra cuidadores.') +
+      q('¿Puede ayudarme un familiar?', 'Sí. Puedes autorizar a un familiar o cuidador en el SOME de tu CESFAM. Desde ese momento recibe tus avisos y puede confirmar, cancelar o aceptar horas por ti. No ve tu ficha clínica, y puedes quitarle el permiso cuando quieras. En esta demostración, Luis Alberto tiene autorizada a su hija Carolina.') +
       q('¿Esta página está conectada a mi CESFAM?', 'No. Es una demostración con personas y horas ficticias. Sirve para mostrar cómo funcionaría el servicio.') +
       '</section>';
+  }
+
+  function quienMeAyuda() {
+    var as = misCuidadores(), h = '<section class="tarjeta bloque"><h2>Quién me ayuda con mis horas</h2>';
+    if (!as.length) {
+      return h + '<p>Por ahora nadie más gestiona tus horas.</p><p class="suave">Si quieres que un familiar o cuidador te ayude, pídelo en el SOME de tu CESFAM con tu cédula. Podrá recibir tus avisos y responder por ti, pero no verá tu ficha clínica.</p>' +
+        '<p class="suave chico">En esta demostración, prueba como Luis Alberto para ver cómo funciona.</p></section>';
+    }
+    as.forEach(function (a) {
+      var c = CUIDADORES[a.cuidador], vig = a.estado === 'vigente';
+      h += '<div class="renglon"><div class="cab"><b>' + c.nombre + ', tu ' + a.relacion + '</b>' + (vig ? '<span class="sello">Con permiso</span>' : '<span class="sello gris">Sin permiso</span>') + '</div>' +
+        (vig ? '<p>Recibe tus avisos y puede confirmar, cancelar, aceptar o pedir horas por ti. No ve tu ficha clínica.</p><p class="suave chico">La autorizaste en el SOME ' + hace(a.desde) + '.</p><div>' + btn('Quitarle el permiso a ' + c.nombre, 'revocar', 'data-id="' + a.cuidador + '"', 'rojo-borde') + '</div>'
+          : '<p>Le quitaste el permiso. Ya no ve ni cambia tus horas.</p><div>' + btn('Volver a darle permiso', 'autorizar', 'data-id="' + a.cuidador + '" data-persona="' + a.persona + '"', 'borde') + '</div><p class="suave chico">En un CESFAM real esto se haría de nuevo en el SOME. Aquí se simula.</p>') + '</div>';
+    });
+    return h + '</section>';
+  }
+
+  /* ---------- Vista del familiar o cuidador ---------- */
+  function vCuidador() {
+    var c = CUIDADORES[ui.cuidador], as = aQuienAyudo(), h = '';
+    h += '<header class="bloque"><p class="ceja">Vista de familiar o cuidador</p><h1 tabindex="-1">Hola, ' + c.nombre + '.</h1><p class="bajada">Aquí ayudas con las horas de quien te autorizó. Cada cosa que hagas queda a su nombre y se le avisa.</p></header>';
+    as.forEach(function (a) {
+      var p = PERSONAS[a.persona];
+      if (a.estado !== 'vigente') {
+        h += '<section class="tarjeta bloque"><h2>' + p.nombre + '</h2><div><span class="sello gris">Sin permiso</span></div><p>' + p.nombre + ' te quitó el permiso. Ya no puedes ver ni cambiar sus horas.</p>' +
+          '<p class="suave">Para volver a ayudar, ' + p.nombre + ' debe autorizarte de nuevo en el SOME.</p><div>' + btn('Simular nueva autorización en el SOME', 'autorizar', 'data-id="' + a.cuidador + '" data-persona="' + a.persona + '"', 'borde') + '</div></section>';
+        return;
+      }
+      var por = 'data-por="' + a.cuidador + '"';
+      var hs = E.horas.filter(function (x) { return x.persona === a.persona && x.estado === 'reservada'; }).sort(function (x, y) { return x.fecha - y.fecha; });
+      var of = E.cupos.filter(function (x) { return x.estado === 'ofrecido' && x.ofrecidoA === a.persona; });
+      var canc = E.horas.filter(function (x) { return x.persona === a.persona && x.estado === 'cancelada' && puedeRecuperar(E, x.id); });
+      var sols = E.solicitudes.filter(function (x) { return x.persona === a.persona && x.estado === 'espera'; });
+      h += '<section class="bloque"><div class="renglon"><div class="cab"><b>Ayudas a ' + p.nombre + ', ' + p.edad + ' años</b><span class="sello">Con permiso</span></div><p class="chico suave">Eres su ' + a.relacion + '. Te autorizó en el SOME ' + hace(a.desde) + '. Recibes sus avisos.</p></div></section>';
+      of.forEach(function (x) {
+        h += '<section class="bloque"><h2>Se liberó una hora para ' + p.nombre + '</h2>' + boleto(x, { clase: 'oferta', sello: '<span class="sello ambar">Oferta para ' + p.nombre + '</span>',
+          pie: btn(ico('tic', 22) + ' Aceptar por ' + p.nombre, 'aceptar', 'data-id="' + x.id + '" ' + por) + btn('No le sirve', 'rechazar', 'data-id="' + x.id + '" ' + por, 'borde') }) +
+          '<p class="suave chico">Antes de aceptar, confirma con ' + p.nombre + ' que puede ir ese día.</p></section>';
+      });
+      h += '<section class="bloque"><h2>Próximas horas de ' + p.nombre + ' (' + hs.length + ')</h2>';
+      if (!hs.length) h += '<div class="vacio"><p>No tiene horas reservadas.</p></div>';
+      hs.forEach(function (x) {
+        h += boleto(x, { sello: selloHora(x), pie: (x.confirmada ? '' : btn(ico('tic', 22) + ' Va a asistir', 'confirmar', 'data-id="' + x.id + '" ' + por)) + btn('No podrá asistir', 'cancelar', 'data-id="' + x.id + '" ' + por, 'rojo-borde') });
+      });
+      h += '</section>';
+      if (canc.length) {
+        h += '<section class="bloque"><h2>Horas canceladas que aún se pueden recuperar</h2>';
+        canc.forEach(function (x) { h += boleto(x, { clase: 'apagado', sello: selloHora(x), pie: btn(ico('deshacer', 22) + ' Recuperar esta hora', 'recuperar', 'data-id="' + x.id + '" ' + por, 'borde') }); });
+        h += '</section>';
+      }
+      h += '<section class="tarjeta bloque"><h2>Solicitudes en espera</h2>';
+      if (!sols.length) h += '<p class="suave">No tiene solicitudes pendientes.</p>';
+      sols.forEach(function (x) {
+        var n = antesQueYo(E, x);
+        h += '<div class="renglon"><div class="cab"><b>' + x.atencion + '</b><span class="sello gris">En lista de espera</span></div><p class="chico suave">' + HORARIOS[x.horario] + ' · pedida ' + hace(x.creada) + ' · ' + (n === 0 ? 'es la primera en espera' : (n === 1 ? 'hay 1 persona antes' : 'hay ' + n + ' personas antes')) + '</p></div>';
+      });
+      h += '</section>';
+      h += '<form class="tarjeta bloque" id="form-cuidador"><h2>Pedir una hora para ' + p.nombre + '</h2>' +
+        '<label class="campo" for="cu-atencion">¿Qué atención necesita?<select id="cu-atencion">' + ATENCIONES.map(function (t) { return '<option>' + t + '</option>'; }).join('') + '</select></label>' +
+        '<label class="campo" for="cu-horario">¿Qué horario le acomoda?<select id="cu-horario">' + Object.keys(HORARIOS).map(function (k) { return '<option value="' + k + '">' + HORARIOS[k] + '</option>'; }).join('') + '</select></label>' +
+        '<div>' + btn('Pedir la hora ' + ico('flecha', 22), 'cuidador-pedir', 'data-id="' + a.persona + '" ' + por) + '</div>' +
+        '<p class="suave chico">Los avisos llegarán a ' + p.nombre + ' y a ti.</p></form>';
+      var ms = E.mensajes.filter(function (m) { return m.para === a.persona; }).sort(function (x, y) { return y.ts - x.ts || (x.id < y.id ? 1 : -1); }).slice(0, 4);
+      if (ms.length) {
+        h += '<section class="bloque"><h2>Últimos avisos de ' + p.nombre + '</h2>';
+        ms.forEach(function (m) {
+          var t = { oferta: 'Oferta de hora', cancelacion: 'Hora cancelada', reserva: 'Hora reservada', recuperada: 'Hora recuperada', vencida: 'Oferta vencida' }[m.tipo] || 'Aviso';
+          h += '<article class="mensaje"><b>' + t + ': ' + m.atencion + '</b><p>' + fechaLarga(m.fecha) + ' a las ' + horaTxt(m.fecha) + (m.folio ? '. Comprobante N° ' + m.folio : '') + '.</p>' +
+            (m.por ? '<p class="suave chico">Lo hiciste tú.</p>' : '') + '<p class="cuando">Hoy a las ' + reloj(m.ts) + '</p></article>';
+        });
+        h += '</section>';
+      }
+    });
+    h += '<section class="tarjeta bloque"><h2>Lo que puedes y no puedes hacer</h2>' +
+      '<p><b>Sí puedes:</b> ver sus horas, confirmar, cancelar, recuperar, aceptar ofertas y pedir horas.</p>' +
+      '<p><b>No puedes:</b> ver diagnósticos, exámenes ni su ficha clínica.</p>' +
+      '<p><b>Siempre:</b> todo lo que haces queda registrado con tu nombre, y la persona puede quitarte el permiso cuando quiera.</p>' +
+      '<p class="suave chico">Supuesto de la propuesta: así se pensó esta función. Las reglas reales (cómo se autoriza, qué datos se muestran) las definiría el CESFAM respetando la ley de datos personales.</p></section>';
+    return h;
   }
 
   /* ---------- Vista del equipo ---------- */
@@ -1146,12 +1286,17 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       var st = s.estado === 'resuelta' ? '<span class="sello">Con hora asignada</span>' : of ? '<span class="sello ambar">Oferta enviada</span>' : '<span class="sello gris">En espera</span>';
       h += '<li class="renglon"><div class="cab"><b>' + (i + 1) + '. ' + PERSONAS[s.persona].nombre + ', ' + PERSONAS[s.persona].edad + ' años</b>' + st + '</div><p class="chico suave">' + s.atencion + ' · ' + HORARIOS[s.horario] + ' · pidió ' + hace(s.creada) + '</p></li>';
     });
+    h += '</ul></section>';
+    h += '<section class="tarjeta bloque"><h2>Cuidadores autorizados</h2><p class="suave chico">Familiares que pueden gestionar horas en nombre de una persona. La autorización se registra en el SOME.</p><ul class="lista">';
+    (E.autorizaciones || []).forEach(function (a) {
+      h += '<li class="renglon"><div class="cab"><b>' + CUIDADORES[a.cuidador].nombre + ' → ' + PERSONAS[a.persona].nombre + '</b>' + (a.estado === 'vigente' ? '<span class="sello">Vigente</span>' : '<span class="sello gris">Sin permiso</span>') + '</div><p class="chico suave">' + a.relacion.charAt(0).toUpperCase() + a.relacion.slice(1) + ' · autorizada en el ' + a.via + ' ' + hace(a.desde) + '</p></li>';
+    });
     h += '</ul></section></div>';
-    h += '<div class="bloque" style="gap:1.4rem"><section class="tarjeta bloque"><h2>Registro de actividad</h2><p class="suave chico">Cada paso queda anotado. “Automático” es lo que hizo el sistema sin intervención del personal.</p>';
+    h += '<div class="bloque" style="gap:1.4rem"><section class="tarjeta bloque"><h2>Registro de actividad</h2><p class="suave chico">Cada paso queda anotado. “Automático” es lo que hizo el sistema sin intervención del personal. “Cuidador” es lo que hizo un familiar autorizado.</p>';
     if (!E.registro.length) h += '<p class="suave">Todavía no hay movimientos.</p>';
     h += '<ul class="registro">';
     E.registro.slice().reverse().forEach(function (g) {
-      h += '<li><time>' + reloj(g.ts) + '</time><div><span class="tag' + (g.quien === 'auto' ? '' : ' per') + '">' + (g.quien === 'auto' ? 'Automático' : 'Persona') + '</span><br>' + g.texto + '</div></li>';
+      h += '<li><time>' + reloj(g.ts) + '</time><div><span class="tag' + (g.quien === 'auto' ? '' : ' per') + '">' + ({ auto: 'Automático', cuidador: 'Cuidador' }[g.quien] || 'Persona') + '</span><br>' + g.texto + '</div></li>';
     });
     h += '</ul></section>';
     h += '<section class="tarjeta bloque"><h2>Reglas de asignación de esta prueba</h2><ol class="limpia">' +
@@ -1159,7 +1304,8 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       '<li><div><b>Horario compatible</b>Se respeta la preferencia de mañana o tarde.</div></li>' +
       '<li><div><b>Orden de llegada</b>Recibe primero la oferta quien pidió primero.</div></li>' +
       '<li><div><b>Una oferta a la vez</b>Un cupo nunca se ofrece a dos personas al mismo tiempo, para no duplicar reservas.</div></li>' +
-      '<li><div><b>Arrepentimiento</b>Quien canceló por error puede recuperar su hora mientras nadie más la haya aceptado.</div></li></ol>' +
+      '<li><div><b>Arrepentimiento</b>Quien canceló por error puede recuperar su hora mientras nadie más la haya aceptado.</div></li>' +
+      '<li><div><b>Cuidadores</b>Un familiar solo puede actuar si tiene permiso vigente, y todo queda a nombre de la persona.</div></li></ol>' +
       '<p class="suave chico">En una implementación real, los criterios clínicos de prioridad y el plazo de respuesta los define el CESFAM.</p></section></div></div>';
     return h;
   }
@@ -1198,18 +1344,20 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     $('barra').innerHTML = botones(true);
   }
   function pintar(enfocar) {
-    var equipo = ui.vista === 'equipo';
+    var cuid = ui.vista === 'cuidador', equipo = ui.vista === 'equipo' || cuid;
     $('marco').classList.toggle('con-menu', !equipo);
     $('menu').style.display = equipo ? 'none' : '';
     $('barra').style.display = equipo ? 'none' : '';
     $('ver-persona').setAttribute('aria-pressed', String(!equipo));
-    $('ver-equipo').setAttribute('aria-pressed', String(equipo));
+    $('ver-equipo').setAttribute('aria-pressed', String(ui.vista === 'equipo'));
+    $('ver-cuidador').setAttribute('aria-pressed', String(cuid));
     $('sel-persona').value = ui.persona;
     $('sel-persona').disabled = equipo;
     var v = $('vista'), html;
-    if (equipo) html = vEquipo();
+    if (cuid) html = vCuidador();
+    else if (equipo) html = vEquipo();
     else html = ({ inicio: vInicio, horas: vHoras, detalle: vDetalle, comprobante: vComprobante, pedir: vPedir, mensajes: vMensajes, ayuda: vAyuda })[ui.pagina]();
-    v.className = 'vista' + (equipo ? ' ancha' : '');
+    v.className = 'vista' + (equipo && !cuid ? ' ancha' : '');
     v.innerHTML = html;
     pintarNav();
     if (!equipo && ui.pagina === 'mensajes') E.mensajes.forEach(function (m) { if (m.para === ui.persona) m.leido = true; });
@@ -1286,33 +1434,41 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     contraste: function () { ponerContraste(document.documentElement.getAttribute('data-contraste') !== 'alto'); },
     escuchar: escuchar,
     detalle: function (b) { callar(); ui.detalle = b.dataset.id; ui.pagina = 'detalle'; pintar(); },
-    confirmar: function (b) { confirmarAsistencia(E, b.dataset.id, Date.now()); pintar(false); decir('Gracias. Anotamos que asistirás.'); },
+    confirmar: function (b) {
+      var por = b.dataset.por || null, r = confirmarAsistencia(E, b.dataset.id, Date.now(), por);
+      pintar(false); decir(!r.ok ? (r.motivo || 'No se pudo confirmar.') : por ? 'Listo. Quedó anotado que asistirá.' : 'Gracias. Anotamos que asistirás.');
+    },
     cancelar: function (b) {
       var x = E.horas.find(function (q) { return q.id === b.dataset.id; }); if (!x) return;
-      preguntar({ titulo: '¿Quieres cancelar esta hora?', rojo: true, si: 'Sí, cancelar mi hora', no: 'No, mantener mi hora',
-        cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>Tu cupo se ofrecerá a otra persona que está esperando.</p>' }, function () {
-        var ahora = Date.now(), r = cancelarHora(E, x.id, ahora);
+      var por = b.dataset.por || null, nom = PERSONAS[x.persona].nombre;
+      preguntar({ titulo: por ? '¿Cancelar la hora de ' + nom + '?' : '¿Quieres cancelar esta hora?', rojo: true, si: por ? 'Sí, cancelar su hora' : 'Sí, cancelar mi hora', no: por ? 'No, mantener su hora' : 'No, mantener mi hora',
+        cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>' + (por ? 'El cupo se ofrecerá a otra persona que está esperando. ' + nom + ' recibirá el comprobante en sus mensajes.' : 'Tu cupo se ofrecerá a otra persona que está esperando.') + '</p>' }, function () {
+        var ahora = Date.now(), r = cancelarHora(E, x.id, ahora, por);
         if (!r.ok) { decir(r.motivo); pintar(); return; }
+        if (por) { pintar(false); decir('Hora cancelada. Comprobante N° ' + r.folio + '. ' + nom + ' también recibió el aviso.'); return; }
         ui.comprobante = { tipo: 'cancelacion', folio: r.folio, horaId: x.id, atencion: x.atencion, fecha: x.fecha, ts: ahora, ofrecido: r.cupo.estado === 'ofrecido' };
         ui.pagina = 'comprobante'; pintar();
       });
     },
     aceptar: function (b) {
       var c = E.cupos.find(function (q) { return q.id === b.dataset.id; }); if (!c) return;
-      preguntar({ titulo: '¿Reservar esta hora?', si: 'Sí, reservar esta hora', no: 'Volver',
-        cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '<br>CESFAM de ejemplo, ' + c.box + '</p><p>Quedará anotada en Mis horas.</p>' }, function () {
-        var r = aceptarOferta(E, c.id, ui.persona, Date.now());
+      var por = b.dataset.por || null, quien = por ? c.ofrecidoA : ui.persona;
+      preguntar({ titulo: por ? '¿Reservar esta hora para ' + PERSONAS[quien].nombre + '?' : '¿Reservar esta hora?', si: 'Sí, reservar esta hora', no: 'Volver',
+        cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '<br>CESFAM de ejemplo, ' + c.box + '</p><p>' + (por ? 'Quedará a nombre de ' + PERSONAS[quien].nombre + ' y se le avisará.' : 'Quedará anotada en Mis horas.') + '</p>' }, function () {
+        var r = aceptarOferta(E, c.id, quien, Date.now(), por);
         if (!r.ok) { decir(r.motivo); pintar(); return; }
+        if (por) { pintar(false); decir('Hora reservada para ' + PERSONAS[quien].nombre + '. Comprobante N° ' + r.folio + '.'); return; }
         ui.comprobante = { tipo: 'reserva', folio: r.folio, id: r.hora.id, atencion: c.atencion, fecha: c.fecha, box: c.box };
         ui.pagina = 'comprobante'; pintar();
       });
     },
     rechazar: function (b) {
       var c = E.cupos.find(function (q) { return q.id === b.dataset.id; }); if (!c) return;
-      preguntar({ titulo: '¿Esta hora no te sirve?', si: 'No me sirve, ofrézcanla a otra persona', no: 'Volver',
-        cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '</p><p>Seguirás en la lista de espera y tus otras horas no cambian.</p>' }, function () {
-        var r = descartarOferta(E, c.id, ui.persona, 'rechazo', Date.now());
-        pintar(); decir(r.ok ? 'Listo. Sigues en la lista de espera.' : r.motivo);
+      var por = b.dataset.por || null, quien = por ? c.ofrecidoA : ui.persona, nom = PERSONAS[quien].nombre;
+      preguntar({ titulo: por ? '¿Esta hora no le sirve a ' + nom + '?' : '¿Esta hora no te sirve?', si: por ? 'No le sirve, ofrézcanla a otra persona' : 'No me sirve, ofrézcanla a otra persona', no: 'Volver',
+        cuerpo: '<p><b>' + c.atencion + '</b><br>' + fechaLarga(c.fecha) + ' a las ' + horaTxt(c.fecha) + '</p><p>' + (por ? nom + ' seguirá en la lista de espera y sus otras horas no cambian.' : 'Seguirás en la lista de espera y tus otras horas no cambian.') + '</p>' }, function () {
+        var r = descartarOferta(E, c.id, quien, 'rechazo', Date.now(), por);
+        pintar(!por); decir(r.ok ? (por ? 'Listo. ' + nom + ' sigue en la lista de espera.' : 'Listo. Sigues en la lista de espera.') : r.motivo);
       });
     },
     vencer: function (b) {
@@ -1322,10 +1478,12 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
     },
     recuperar: function (b) {
       var x = E.horas.find(function (q) { return q.id === b.dataset.id; }); if (!x) return;
-      preguntar({ titulo: '¿Recuperar tu hora?', si: 'Sí, recuperar mi hora', no: 'Volver',
-        cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>La hora vuelve a quedar a tu nombre.</p>' }, function () {
-        var r = recuperarHora(E, x.id, Date.now());
+      var por = b.dataset.por || null, nom = PERSONAS[x.persona].nombre;
+      preguntar({ titulo: por ? '¿Recuperar la hora de ' + nom + '?' : '¿Recuperar tu hora?', si: por ? 'Sí, recuperar su hora' : 'Sí, recuperar mi hora', no: 'Volver',
+        cuerpo: '<p><b>' + x.atencion + '</b><br>' + fechaLarga(x.fecha) + ' a las ' + horaTxt(x.fecha) + '</p><p>' + (por ? 'La hora vuelve a quedar a nombre de ' + nom + '.' : 'La hora vuelve a quedar a tu nombre.') + '</p>' }, function () {
+        var r = recuperarHora(E, x.id, Date.now(), por);
         if (!r.ok) { pintar(); decir(r.motivo); return; }
+        if (por) { pintar(false); decir('Listo. La hora volvió a quedar a nombre de ' + nom + '.'); return; }
         ui.detalle = x.id; ui.pagina = 'detalle'; pintar(); decir('Listo. Recuperaste tu hora.');
       });
     },
@@ -1340,6 +1498,24 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
       } catch (e) { decir('Este dispositivo no permitió crear el recordatorio.'); }
     },
     imprimir: function () { callar(); try { window.print(); } catch (e) { } },
+    revocar: function (b) {
+      var cu = CUIDADORES[b.dataset.id]; if (!cu) return;
+      preguntar({ titulo: '¿Quitarle el permiso a ' + cu.nombre + '?', rojo: true, si: 'Sí, quitarle el permiso', no: 'No, que siga ayudándome',
+        cuerpo: '<p>' + cu.nombre + ' dejará de recibir tus avisos y no podrá ver ni cambiar tus horas.</p><p>Tus horas no cambian.</p>' }, function () {
+        var r = revocarCuidador(E, b.dataset.id, ui.persona, Date.now());
+        pintar(false); decir(r.ok ? cu.nombre + ' ya no puede gestionar tus horas.' : r.motivo);
+      });
+    },
+    autorizar: function (b) {
+      var r = autorizarCuidador(E, b.dataset.id, b.dataset.persona, Date.now());
+      pintar(false); decir(r.ok ? 'Permiso registrado. ' + CUIDADORES[b.dataset.id].nombre + ' puede volver a ayudar.' : r.motivo);
+    },
+    'cuidador-pedir': function (b) {
+      var persona = b.dataset.id, por = b.dataset.por, nom = PERSONAS[persona].nombre;
+      var r = pedirHora(E, persona, $('cu-atencion').value, $('cu-horario').value, 'app', Date.now(), por);
+      if (!r.ok) { decir(r.motivo); return; }
+      pintar(false); decir(r.oferta ? 'Solicitud enviada, y ya hay un cupo para ' + nom + '. Revísalo arriba.' : 'Solicitud enviada. ' + nom + ' quedó en lista de espera.');
+    },
     'pedir-paso': function (b) { ui.pedir.paso = Number(b.dataset.valor); pintar(); },
     'pedir-enviar': function () {
       var f = ui.pedir, r = pedirHora(E, ui.persona, f.atencion, f.horario, f.aviso, Date.now());
