@@ -1720,6 +1720,6 @@ if (typeof module !== 'undefined') module.exports = { crearEstado: crearEstado, 
   ruta();
 })();
 </script>
-<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){});});}</script>
+<script>if("serviceWorker" in navigator){var habiaSW=!!navigator.serviceWorker.controller,recargado=false;navigator.serviceWorker.addEventListener("controllerchange",function(){if(habiaSW&&!recargado){recargado=true;location.reload();}});window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").then(function(r){r.update();}).catch(function(){});});}</script>
 </body>
 </html>
